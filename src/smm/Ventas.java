@@ -6,9 +6,4 @@ public class Ventas
 	{
 		
 	}
-	
-	private cargarFicheroVentas()
-	{
-		
-	}
 }
