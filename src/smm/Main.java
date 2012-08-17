@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.Map.Entry;
 
 /**
  * Clase de la ejecucion principal del proceso.
@@ -100,6 +103,7 @@ public class Main
 		
 		try
 		{
+			Ventas.vuelcaVentasAFichero(tablaVentas, ficheroVentas);
 			ficheroVentas.close();
 		}
 		catch (IOException ioe)
@@ -151,7 +155,10 @@ public class Main
 			{
 				Musica.crearMusica(tablaMusica);
 			}
-
+			if (comando[1].equals("venta"))
+			{
+				Ventas.crearVenta(tablaVentas);
+			}
 		}
 		if (comando[0].equals("listar"))
 		{
@@ -162,6 +169,10 @@ public class Main
 			if (comando[1].equals("musica"))
 			{
 				Musica.listarMusica(tablaMusica);
+			}
+			if (comando[1].equals("venta"))
+			{
+				Ventas.listarVenta(tablaVentas);
 			}
 
 		}
