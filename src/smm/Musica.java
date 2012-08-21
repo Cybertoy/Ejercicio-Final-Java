@@ -75,11 +75,12 @@ public class Musica
 		else
 		{
 			Set<Entry<Integer,Musica>> s = tablaMusica.entrySet();
+			Entry<Integer, Musica> m = null;
 			Iterator<Entry<Integer, Musica>> it=s.iterator();
 			
 			while (it.hasNext())
 			{
-				Entry<Integer, Musica> m =it.next();
+				m =it.next();
 	            int key=(Integer)m.getKey();
 	            String value=(String)m.getValue().tituloMusica;
 	            System.out.println("Key :"+key+" value :"+value);	
