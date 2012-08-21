@@ -93,9 +93,11 @@ public class Clientes
 			Set<Entry<Integer,Clientes>> s = tablaClientes.entrySet();
 			Iterator<Entry<Integer, Clientes>> it=s.iterator();
 			
-			while (it.hasNext())
+			Entry<Integer, Clientes> m = null;
+            
+            while (it.hasNext())
 			{
-				Entry<Integer, Clientes> m =it.next();
+				m=it.next();
 	            int key=(Integer)m.getKey();
 	            String value=(String)m.getValue().nombreCliente;
 	            System.out.println("Key :"+key+" value :"+value);	
