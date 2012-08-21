@@ -54,10 +54,11 @@ public class Ventas
 		{
 			Set<Entry<Integer,Ventas>> s = tablaVentas.entrySet();
 			Iterator<Entry<Integer, Ventas>> it=s.iterator();
+			Entry<Integer, Ventas> m = null;
 			
 			while (it.hasNext())
 			{
-				Entry<Integer, Ventas> m =it.next();
+				m =it.next();
 	            int key=(Integer)m.getKey();
 	            int value=(int)m.getValue().codCliente;
 	            int value2=(int)m.getValue().codMusica;
