@@ -1,6 +1,7 @@
 package smm;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -57,22 +58,46 @@ public class Clientes
 		String nombre;
 		String apellidos;
 		String dni;
-		int edad;
+		int edad = 0;
+		boolean edadCorrecta = false;
 		
-		Scanner entrada = new Scanner(System.in);
-			
-		System.out.print("Nombre del cliente: ");
-		nombre = entrada.nextLine();
-		System.out.print("Apellido del cliente: ");
-		apellidos = entrada.nextLine();
+		Scanner entrada = null;
+		
+		do
+		{
+			entrada = new Scanner(System.in);
+			System.out.print("Nombre del cliente: ");
+			nombre = entrada.nextLine();
+		} while(nombre.equals(""));
+		
+		do
+		{
+			entrada = new Scanner(System.in);
+			System.out.print("Apellido del cliente: ");
+			apellidos = entrada.nextLine();
+		} while(apellidos.equals(""));
 		System.out.print("DNI del cliente: ");
 		dni = entrada.nextLine();
-		System.out.print("Edad del cliente: ");
-		edad = entrada.nextInt();
 		
-		Clientes cliente = new Clientes (nombre, apellidos, dni, edad);
+		do
+		{
+			System.out.print("Edad del cliente: ");
+			try
+			{
+				entrada = new Scanner(System.in);
+				edad = entrada.nextInt();
+				edadCorrecta=true;
+			}
+			catch (InputMismatchException ime)  // Se ha introducido un elemento no numerico
+			{
+				edadCorrecta=false;
+				System.out.println("La entrada de la edad ha sido erronea, introduzca una correcta.");
+			}
+		} while(!edadCorrecta);
+		
+		Clientes cliente = new Clientes (nombre, apellidos, dni, edad); 
 		numClientes = numClientes + 1;
-		tablaClientes.put(numClientes, cliente);
+		tablaClientes.put(numClientes, cliente); // Damos de alta al cliente
 		
 		System.out.println("Cliente creado con exito");
 	}
@@ -84,7 +109,7 @@ public class Clientes
 	 */
 	public static void listarClientes(HashMap<Integer, Clientes> tablaClientes)
 	{
-		if (tablaClientes.isEmpty())
+		if (tablaClientes.isEmpty())  // No hay clientes en el sistema
 		{
 			System.out.println("No existen clientes dados de alta");
 		}
@@ -92,12 +117,11 @@ public class Clientes
 		{
 			Set<Entry<Integer,Clientes>> s = tablaClientes.entrySet();
 			Iterator<Entry<Integer, Clientes>> it=s.iterator();
-			
 			Entry<Integer, Clientes> m = null;
             
             while (it.hasNext())
 			{
-				m=it.next();
+				m =it.next();
 	            int key=(Integer)m.getKey();
 	            String value=(String)m.getValue().nombreCliente;
 	            System.out.println("Key :"+key+" value :"+value);	
@@ -113,14 +137,19 @@ public class Clientes
 	 */
 	public static void eliminarCliente(HashMap<Integer, Clientes> tablaClientes, int indice)
 	{
-		if (tablaClientes.isEmpty())
+		if (tablaClientes.isEmpty()) // No hay clientes en el sistema
 		{
 			System.out.println("No existen clientes dados de alta para borrar");
 		}
 		else
 		{
-			tablaClientes.remove(indice);
-			System.out.println("Cliente eliminado correctamente");
+			if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
+			{
+				tablaClientes.remove(indice);
+				System.out.println("Cliente eliminado correctamente");
+			}
+			else
+				System.out.println("No existe cliente con ese indice.");
 		}
 	}
 	
@@ -130,22 +159,66 @@ public class Clientes
 	 * @param tablaClientes Almacena los clientes creados.
 	 */
 	public static void eliminarCliente(HashMap<Integer, Clientes> tablaClientes)
-	{
-		if (tablaClientes.isEmpty())
+	{	
+		if (tablaClientes.isEmpty()) // No hay clientes en el sistema
 		{
 			System.out.println("No existen clientes dados de alta para borrar");
 		}
 		else
 		{
 			int indice;
-			Scanner entrada = new Scanner(System.in);
-			System.out.print("Indice de cliente a borrar: ");
-			indice = entrada.nextInt();
-			tablaClientes.remove(indice);
-			System.out.println("Cliente eliminado correctamente");
+			Scanner entrada = null;
+			boolean indiceCorrecto = false;
+			
+			do
+			{
+				System.out.print("Indice de cliente a borrar: ");
+				try
+				{
+					entrada = new Scanner(System.in);
+					indice = entrada.nextInt();
+					if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
+					{
+						tablaClientes.remove(indice);
+						System.out.println("Cliente eliminado correctamente");
+						indiceCorrecto = true;
+					}
+					else
+						System.out.println("No existe cliente con ese indice.");
+				}
+				catch (InputMismatchException ime) // Se introduce un dato no numerico
+				{
+					System.out.println("La entrada del indice ha sido erronea, introduzca una correcta.");
+				}
+			} while (!indiceCorrecto);
 		}
 	}
-	
+
+	/**
+	 * Busca clientes.
+	 *
+	 * @param Codigo de cliente
+	 * @param tablaVentas Almacena los clientes
+	 * @return true, si encuentra el cliente en la tabla tablaClientes
+	 */
+	public static boolean buscaCliente(int indice, HashMap<Integer, Clientes> tablaClientes)
+	{
+		boolean encontrado = false;
+		
+		Set<Entry<Integer,Clientes>> s = tablaClientes.entrySet();
+		Iterator<Entry<Integer, Clientes>> it=s.iterator();
+		Entry<Integer, Clientes> m = null;
+		
+		while (it.hasNext())  // Buscamos al cliente en el sistema
+		{
+			m =it.next();
+			int key=(Integer)m.getKey();
+			if (indice == key)  // Encontrado
+				encontrado = true;
+		}
+		return encontrado;
+	}
+
 	// GETTERS Y SETTERS
 	/**
 	 * Devuelve el numero de clientes.

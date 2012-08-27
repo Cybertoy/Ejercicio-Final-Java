@@ -1,10 +1,11 @@
 package smm;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Map.Entry;
 
 /**
  * Clase para la gestion de musica.
@@ -56,7 +57,7 @@ public class Musica
 		
 		Musica musica = new Musica (titulo, tipo);
 		numMusica = numMusica + 1;
-		tablaMusica.put(numMusica, musica);
+		tablaMusica.put(numMusica, musica);  // Damos de alta el disco
 		
 		System.out.println("Musica creada con exito");
 	}
@@ -68,17 +69,17 @@ public class Musica
 	 */
 	public static void listarMusica(HashMap<Integer, Musica> tablaMusica)
 	{
-		if (tablaMusica.isEmpty())
+		if (tablaMusica.isEmpty())  // No hay discos en el sistema
 		{
-			System.out.println("No existen clientes dados de alta");
+			System.out.println("No existen discos dados de alta");
 		}
 		else
 		{
 			Set<Entry<Integer,Musica>> s = tablaMusica.entrySet();
-			Entry<Integer, Musica> m = null;
 			Iterator<Entry<Integer, Musica>> it=s.iterator();
+			Entry<Integer, Musica> m = null;
 			
-			while (it.hasNext())
+			while (it.hasNext()) // Recorremos los discos en el sistema
 			{
 				m =it.next();
 	            int key=(Integer)m.getKey();
@@ -96,14 +97,19 @@ public class Musica
 	 */
 	public static void eliminarMusica(HashMap<Integer, Musica> tablaMusica, int indice)
 	{
-		if (tablaMusica.isEmpty())
+		if (tablaMusica.isEmpty()) // No hay discos en el sistema
 		{
-			System.out.println("No existen musica dados de alta para borrar");
+			System.out.println("No existen discos dados de alta para borrar");
 		}
 		else
 		{
-			tablaMusica.remove(indice);
-			System.out.println("Musica eliminado correctamente");
+			if(Musica.buscaMusica(indice, Main.tablaMusica)) // Buscamos el disco en el sistema
+			{
+				tablaMusica.remove(indice);
+				System.out.println("Disco eliminado correctamente");				
+			}
+			else
+				System.out.println("No existe disco con ese indice.");
 		}
 	}
 	
@@ -114,22 +120,86 @@ public class Musica
 	 */
 	public static void eliminarMusica(HashMap<Integer, Musica> tablaMusica)
 	{
-		if (tablaMusica.isEmpty())
+		if (tablaMusica.isEmpty()) // No hay discos en el sistema
 		{
-			System.out.println("No existen musica dados de alta para borrar");
+			System.out.println("No existen discos dados de alta para borrar");
 		}
 		else
 		{
 			int indice;
-			Scanner entrada = new Scanner(System.in);
-			System.out.print("Indice de musica a borrar: ");
-			indice = entrada.nextInt();
-			tablaMusica.remove(indice);
-			System.out.println("Musica eliminado correctamente");
+			Scanner entrada = null;
+			boolean indiceCorrecto = false;
+			
+			do
+			{
+				System.out.print("Indice de discos a borrar: ");
+				try
+				{
+					entrada = new Scanner(System.in);
+					indice = entrada.nextInt();
+					if(Musica.buscaMusica(indice, Main.tablaMusica))  // Buscamos si el disco a borrar existe en el sistema
+					{
+						tablaMusica.remove(indice);
+						System.out.println("Disco eliminado correctamente");
+						indiceCorrecto = true;						
+					}
+					else
+						System.out.println("No existe disco con ese indice.");
+				}
+				catch (InputMismatchException ime)  // Se introduce un dato no numerico
+				{
+					System.out.println("La entrada del indice ha sido erronea, introduzca una correcta.");
+				}
+			}
+			while (!indiceCorrecto);
 		}
+	}
+
+	/**
+	 * Busca musica.
+	 *
+	 * @param Codigo de disco
+	 * @param tablaVentas Almacena los discos
+	 * @return true, si encuentra el disco en la tabla tablaMusica
+	 */
+	public static boolean buscaMusica(int indice, HashMap<Integer, Musica> tablaMusica)
+	{
+		boolean encontrado = false;
+		
+		Set<Entry<Integer,Musica>> s = Main.tablaMusica.entrySet();
+		Iterator<Entry<Integer, Musica>> it=s.iterator();
+		Entry<Integer, Musica> m = null;
+		
+		while (it.hasNext()) // Buscamos disco en el sistema
+		{
+			m =it.next();
+			int key=(Integer)m.getKey();
+			if (indice == key)  // Encontrado
+				encontrado = true;
+		}
+		return encontrado;
 	}
 	
 	// GETTERS Y SETTERS
+	/**
+	 * Devuelve el numero de discos.
+	 *
+	 * @return El numero de discos almacenados
+	 */
+	public static int getNumMusica()
+	{
+		return numMusica;
+	}
+
+	/**
+	 * Informa el numero de discos.
+	 *
+	 * @param numClientes Numero de discos almacenados
+	 */
+	public static void setNumMusica(int numClientes)
+	{
+		Musica.numMusica = numClientes;
+	}
 	
 	/**
 	 * GDevuelve el titulo del disco.
@@ -170,5 +240,4 @@ public class Musica
 	{
 		this.tipoMusica = tipoMusica;
 	}
-
 }
