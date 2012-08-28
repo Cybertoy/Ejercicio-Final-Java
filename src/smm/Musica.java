@@ -20,8 +20,8 @@ public class Musica
 	/** Titulo del disco. */
 	private String tituloMusica;
 	
-	/** Tipo de musica. */
-	private String tipoMusica;
+	/** Formato del disco. */
+	private String formatoMusica;
 	
 	/** Numero de discos almacenados. */
 	private static int numMusica = 0;
@@ -35,7 +35,7 @@ public class Musica
 	private Musica(String titulo, String tipo)
 	{
 		this.tituloMusica = titulo;
-		this.setTipoMusica(tipo);
+		this.setFormatoMusica(tipo);
 	}
 	
 	/**
@@ -46,16 +46,16 @@ public class Musica
 	public static void crearMusica(HashMap<Integer, Musica> tablaMusica)
 	{
 		String titulo;
-		String tipo;
+		String formato;
 		
 		Scanner entrada = new Scanner(System.in);
 
 		System.out.print("Titulo del disco: ");
 		titulo = entrada.nextLine();
 		System.out.print("Formato del disco: ");
-		tipo = entrada.nextLine();
+		formato = entrada.nextLine();
 		
-		Musica musica = new Musica (titulo, tipo);
+		Musica musica = new Musica (titulo, formato);
 		numMusica = numMusica + 1;
 		tablaMusica.put(numMusica, musica);  // Damos de alta el disco
 		
@@ -69,6 +69,9 @@ public class Musica
 	 */
 	public static void listarMusica(HashMap<Integer, Musica> tablaMusica)
 	{
+		String titulo = null;
+		String formato = null;
+		
 		if (tablaMusica.isEmpty())  // No hay discos en el sistema
 		{
 			System.out.println("No existen discos dados de alta");
@@ -82,9 +85,10 @@ public class Musica
 			while (it.hasNext()) // Recorremos los discos en el sistema
 			{
 				m =it.next();
-	            int key=(Integer)m.getKey();
-	            String value=(String)m.getValue().tituloMusica;
-	            System.out.println("Key :"+key+" value :"+value);	
+	            titulo=(String)m.getValue().tituloMusica;
+	            formato=(String)m.getValue().formatoMusica;
+	            System.out.println("Titulo: "+titulo+
+	            				   " Formato: "+formato);	
 			}
 		}
 	}
@@ -103,10 +107,11 @@ public class Musica
 		}
 		else
 		{
-			if(Musica.buscaMusica(indice, Main.tablaMusica)) // Buscamos el disco en el sistema
+			if(Musica.buscaMusica(indice, Tienda.tablaMusica)) // Buscamos el disco en el sistema
 			{
 				tablaMusica.remove(indice);
-				System.out.println("Disco eliminado correctamente");				
+				System.out.println("Disco eliminado correctamente");
+				numMusica = numMusica - 1;
 			}
 			else
 				System.out.println("No existe disco con ese indice.");
@@ -137,10 +142,11 @@ public class Musica
 				{
 					entrada = new Scanner(System.in);
 					indice = entrada.nextInt();
-					if(Musica.buscaMusica(indice, Main.tablaMusica))  // Buscamos si el disco a borrar existe en el sistema
+					if(Musica.buscaMusica(indice, Tienda.tablaMusica))  // Buscamos si el disco a borrar existe en el sistema
 					{
 						tablaMusica.remove(indice);
 						System.out.println("Disco eliminado correctamente");
+						numMusica = numMusica - 1;
 						indiceCorrecto = true;						
 					}
 					else
@@ -165,15 +171,16 @@ public class Musica
 	public static boolean buscaMusica(int indice, HashMap<Integer, Musica> tablaMusica)
 	{
 		boolean encontrado = false;
+		int key;
 		
-		Set<Entry<Integer,Musica>> s = Main.tablaMusica.entrySet();
+		Set<Entry<Integer,Musica>> s = tablaMusica.entrySet();
 		Iterator<Entry<Integer, Musica>> it=s.iterator();
 		Entry<Integer, Musica> m = null;
 		
 		while (it.hasNext()) // Buscamos disco en el sistema
 		{
 			m =it.next();
-			int key=(Integer)m.getKey();
+			key=(Integer)m.getKey();
 			if (indice == key)  // Encontrado
 				encontrado = true;
 		}
@@ -228,7 +235,7 @@ public class Musica
 	 */
 	public String getTipoMusica()
 	{
-		return tipoMusica;
+		return formatoMusica;
 	}
 
 	/**
@@ -236,8 +243,8 @@ public class Musica
 	 *
 	 * @param tipoMusica El tipo de musica del disco.
 	 */
-	public void setTipoMusica(String tipoMusica)
+	public void setFormatoMusica(String tipoMusica)
 	{
-		this.tipoMusica = tipoMusica;
+		this.formatoMusica = tipoMusica;
 	}
 }

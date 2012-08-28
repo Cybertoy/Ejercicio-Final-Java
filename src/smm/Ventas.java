@@ -82,7 +82,7 @@ public class Ventas
 				{				
 					entrada = new Scanner(System.in);
 					idCliente = entrada.nextInt();
-					if (!Clientes.buscaCliente(idCliente,Main.tablaClientes)) // Buscamos el cliente en el sistema
+					if (!Clientes.buscaCliente(idCliente,Tienda.tablaClientes)) // Buscamos el cliente en el sistema
 					{
 						System.out.println("El indice del cliente no existe.");					
 					}
@@ -104,7 +104,7 @@ public class Ventas
 				{
 					entrada = new Scanner(System.in);
 					idMusica = entrada.nextInt();
-					if (!Musica.buscaMusica(idMusica, Main.tablaMusica)) // Buscamos el disco en el sistema
+					if (!Musica.buscaMusica(idMusica, Tienda.tablaMusica)) // Buscamos el disco en el sistema
 					{
 						System.out.println("El indice del disco no existe.");		
 					}
@@ -132,6 +132,10 @@ public class Ventas
 	 */
 	public static void listarVenta(HashMap<Integer, Ventas> tablaVentas)
 	{
+		int codigoCliente;
+		int codigoMusica;
+		int codigoVenta;
+		
 		if (tablaVentas.isEmpty())  // No hay ventas en el sistema
 		{
 			System.out.println("No hay ventas en el registro.");
@@ -145,11 +149,10 @@ public class Ventas
 			while (it.hasNext())  // Recorremos las ventas almacenadas
 			{
 				m =it.next();
-	            int key=(Integer)m.getKey();
-	            int value=(int)m.getValue().codCliente;
-	            int value2=(int)m.getValue().codMusica;
-	            int value3=(int)m.getValue().codVenta;
-	            System.out.println("Key: "+key+" codigoCliente: "+value+" codigoMusica: "+value2+" codigoVenta: "+value3);	
+	            codigoCliente=(int)m.getValue().codCliente;
+	            codigoMusica=(int)m.getValue().codMusica;
+	            codigoVenta=(int)m.getValue().codVenta;
+	            System.out.println("Codigo de cliente: "+codigoCliente+" Codigo de disco: "+codigoMusica+" Codigo de venta: "+codigoVenta);	
 			}
 		}
 	}
@@ -229,6 +232,7 @@ public class Ventas
 	private static boolean buscaVenta(int indice, HashMap<Integer, Ventas> tablaVentas)
 	{
 		boolean encontrado = false;
+		int key;
 		
 		Set<Entry<Integer,Ventas>> s = tablaVentas.entrySet();
 		Iterator<Entry<Integer, Ventas>> it=s.iterator();
@@ -237,7 +241,7 @@ public class Ventas
 		while (it.hasNext())  // Buscamos la venta en el sistema
 		{
 			m =it.next();
-			int key=(Integer)m.getKey();
+			key=(Integer)m.getKey();
 			if (indice == key) // Encontrado
 				encontrado = true;
 		}
@@ -252,6 +256,10 @@ public class Ventas
 	 */
 	public static void vuelcaVentasAFichero(HashMap<Integer, Ventas> tablaVentas, FileWriter fichero)
 	{
+		int codigoCliente;
+		int codigoMusica;
+		int codigoVenta;
+		
 		PrintWriter pw = new PrintWriter(fichero);
 		
 		Set<Entry<Integer,Ventas>> s = tablaVentas.entrySet();
@@ -261,10 +269,10 @@ public class Ventas
 		while (it.hasNext())  // Recorremos la tabla con las ventas
 		{
 			m =it.next();
-            int value=(int)m.getValue().codCliente;
-            int value2=(int)m.getValue().codMusica;
-            int value3=(int)m.getValue().codVenta;
-            pw.println(value+";"+value2+";"+value3); // Linea con venta al fichero
+            codigoCliente=(int)m.getValue().codCliente;
+            codigoMusica=(int)m.getValue().codMusica;
+            codigoVenta=(int)m.getValue().codVenta;
+            pw.println(codigoCliente+";"+codigoMusica+";"+codigoVenta); // Linea con venta al fichero
 		}
 	}
 	
@@ -278,6 +286,7 @@ public class Ventas
 		String linea;
 		FileReader ficheroVentasRead = null;
 		BufferedReader br = null;
+		StringTokenizer orden = null;
 		int[] arrayLinea = null;
 		
 		arrayLinea = new int[3]; // Guarda los 3 valores de la linea
@@ -288,7 +297,7 @@ public class Ventas
 			br = new BufferedReader(ficheroVentasRead);
 			while((linea=br.readLine())!=null)  // Recorremos todas las lineas
 			{	
-				StringTokenizer orden = new StringTokenizer(linea,";"); //Recoge el token correspondiente, no tiene en cuenta el token ";"
+				orden = new StringTokenizer(linea,";"); //Recoge el token correspondiente, no tiene en cuenta el token ";"
 				for (int i=0; orden.hasMoreTokens(); i++)
 				{
 					arrayLinea[i]=Integer.parseInt(orden.nextToken()); // Almacenamos el token correspondiente

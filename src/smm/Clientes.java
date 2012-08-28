@@ -86,7 +86,10 @@ public class Clientes
 			{
 				entrada = new Scanner(System.in);
 				edad = entrada.nextInt();
-				edadCorrecta=true;
+				if (edad > 0) // La edad no es negativa
+					edadCorrecta=true;
+				else
+					System.out.println("La entrada de la edad ha sido erronea, introduzca una correcta.");
 			}
 			catch (InputMismatchException ime)  // Se ha introducido un elemento no numerico
 			{
@@ -115,6 +118,11 @@ public class Clientes
 		}
 		else
 		{
+			String nombre = null;
+			String apellidos = null;
+			String dni = null;
+			int edad;
+			
 			Set<Entry<Integer,Clientes>> s = tablaClientes.entrySet();
 			Iterator<Entry<Integer, Clientes>> it=s.iterator();
 			Entry<Integer, Clientes> m = null;
@@ -122,9 +130,14 @@ public class Clientes
             while (it.hasNext())
 			{
 				m =it.next();
-	            int key=(Integer)m.getKey();
-	            String value=(String)m.getValue().nombreCliente;
-	            System.out.println("Key :"+key+" value :"+value);	
+	            nombre=(String)m.getValue().nombreCliente;
+	            apellidos=(String)m.getValue().apellidoCliente;
+	            dni=(String)m.getValue().dniCliente;
+	            edad=m.getValue().edadCliente;
+	            System.out.println("Nombre: "+nombre+
+	            				   " Apellidos: "+apellidos+
+	            				   " DNI: "+dni+
+	            				   " Edad: "+edad);	
 			}
 		}
 	}
@@ -146,6 +159,7 @@ public class Clientes
 			if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 			{
 				tablaClientes.remove(indice);
+				numClientes = numClientes - 1;
 				System.out.println("Cliente eliminado correctamente");
 			}
 			else
@@ -180,6 +194,7 @@ public class Clientes
 					if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 					{
 						tablaClientes.remove(indice);
+						numClientes = numClientes - 1;
 						System.out.println("Cliente eliminado correctamente");
 						indiceCorrecto = true;
 					}
@@ -204,6 +219,7 @@ public class Clientes
 	public static boolean buscaCliente(int indice, HashMap<Integer, Clientes> tablaClientes)
 	{
 		boolean encontrado = false;
+		int key;
 		
 		Set<Entry<Integer,Clientes>> s = tablaClientes.entrySet();
 		Iterator<Entry<Integer, Clientes>> it=s.iterator();
@@ -212,7 +228,7 @@ public class Clientes
 		while (it.hasNext())  // Buscamos al cliente en el sistema
 		{
 			m =it.next();
-			int key=(Integer)m.getKey();
+			key=(Integer)m.getKey();
 			if (indice == key)  // Encontrado
 				encontrado = true;
 		}

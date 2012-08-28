@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  * @version 1.0, 25/05/2012
  * @author Santiago Martinez Martinez
  */
-public class Main
+public class Tienda
 {
 	
 	/** Tabla que almacena los clientes. */
@@ -92,7 +92,7 @@ public class Main
 				}
 				else  // Mostramos los comandos correctos de ejecucion
 				{
-					Main.instrucciones();
+					instrucciones();
 					flag = false;
 				}
 			}
@@ -211,7 +211,7 @@ public class Main
 					}
 					catch (NumberFormatException nfe)  // El codigo cliente no era numerico
 					{
-						Main.instrucciones();
+						instrucciones();
 					}
 				}
 				else
@@ -231,7 +231,7 @@ public class Main
 					}
 					catch (NumberFormatException nfe) // El codigo del disco no era numerico
 					{
-						Main.instrucciones();
+						instrucciones();
 					}
 				}
 				else
@@ -251,7 +251,7 @@ public class Main
 					}
 					catch (NumberFormatException nfe) // El codigo de venta no era numerico
 					{
-						Main.instrucciones();
+						instrucciones();
 					}
 				}
 				else
@@ -265,6 +265,6 @@ public class Main
 			comandoEncontrado = 1;
 		
 		if (comandoEncontrado == 0)  // El comando no ha sido reconocido, mostramos el set de instrucciones
-			Main.instrucciones();
+			instrucciones();
 	}
 }
