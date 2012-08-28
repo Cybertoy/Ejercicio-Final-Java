@@ -14,15 +14,8 @@ import java.util.Set;
  * @version 1.0, 25/05/2012
  * @author Santiago Martinez Martinez
  */
-public class Clientes
+public class Clientes extends Persona
 {
-	
-	/** Nombre del cliente. */
-	private String nombreCliente;
-	
-	/** Apellido del cliente. */
-	private String apellidoCliente;
-	
 	/** DNI del cliente. */
 	private String dniCliente;
 	
@@ -42,8 +35,7 @@ public class Clientes
 	 */
 	private Clientes(String nombre, String apellidos, String dni, int edad)
 	{
-		this.nombreCliente = nombre;
-		this.apellidoCliente = apellidos;
+		super(nombre,apellidos);
 		this.dniCliente = dni;
 		this.edadCliente = edad;
 	}
@@ -130,8 +122,8 @@ public class Clientes
             while (it.hasNext())
 			{
 				m =it.next();
-	            nombre=(String)m.getValue().nombreCliente;
-	            apellidos=(String)m.getValue().apellidoCliente;
+	            nombre=(String)m.getValue().getNombre();
+	            apellidos=(String)m.getValue().getApellido();
 	            dni=(String)m.getValue().dniCliente;
 	            edad=m.getValue().edadCliente;
 	            System.out.println("Nombre: "+nombre+
@@ -162,8 +154,8 @@ public class Clientes
 			if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 			{
 				System.out.println("Se va a proceder al borrado del cliente: ");
-	            System.out.println("Nombre: "+tablaClientes.get(indice).nombreCliente+
-     				   			   " Apellidos: "+tablaClientes.get(indice).apellidoCliente+
+	            System.out.println("Nombre: "+tablaClientes.get(indice).getNombre()+
+     				   			   " Apellidos: "+tablaClientes.get(indice).getApellido()+
      				               " DNI: "+tablaClientes.get(indice).dniCliente+
      				               " Edad: "+tablaClientes.get(indice).edadCliente);	
 	            entrada = new Scanner(System.in);
@@ -220,8 +212,8 @@ public class Clientes
 					if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 					{
 						System.out.println("Se va a proceder al borrado del cliente: ");
-			            System.out.println("Nombre: "+tablaClientes.get(indice).nombreCliente+
-		     				   			   " Apellidos: "+tablaClientes.get(indice).apellidoCliente+
+			            System.out.println("Nombre: "+tablaClientes.get(indice).getNombre()+
+		     				   			   " Apellidos: "+tablaClientes.get(indice).getApellido()+
 		     				               " DNI: "+tablaClientes.get(indice).dniCliente+
 		     				               " Edad: "+tablaClientes.get(indice).edadCliente);	
 			            entrada = new Scanner(System.in);
@@ -344,45 +336,4 @@ public class Clientes
 	{
 		this.dniCliente = dniCliente;
 	}
-
-	/**
-	 * Devuelve el apellido del cliente.
-	 *
-	 * @return El apellido del cliente
-	 */
-	public String getApellidoCliente()
-	{
-		return apellidoCliente;
-	}
-
-	/**
-	 * Informa el apellido del cliente.
-	 *
-	 * @param apellidoCliente El apellido del cliente
-	 */
-	public void setApellidoCliente(String apellidoCliente)
-	{
-		this.apellidoCliente = apellidoCliente;
-	}
-
-	/**
-	 * Devuelve el nombre del cliente.
-	 *
-	 * @return EL nombre del cliente
-	 */
-	public String getNombreCliente()
-	{
-		return nombreCliente;
-	}
-
-	/**
-	 * Informa el nombre del cliente.
-	 *
-	 * @param nombreCliente El nombre del cliente
-	 */
-	public void setNombreCliente(String nombreCliente)
-	{
-		this.nombreCliente = nombreCliente;
-	}
-	
 }
