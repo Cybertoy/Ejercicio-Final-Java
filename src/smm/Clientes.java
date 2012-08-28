@@ -152,15 +152,33 @@ public class Clientes
 	{
 		if (tablaClientes.isEmpty()) // No hay clientes en el sistema
 		{
-			System.out.println("No existen clientes dados de alta para borrar");
+			System.out.println("No existen clientes dados de alta para borrar.");
 		}
 		else
 		{
+			String respuesta;
+			Scanner entrada = null;
+			
 			if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 			{
-				tablaClientes.remove(indice);
-				numClientes = numClientes - 1;
-				System.out.println("Cliente eliminado correctamente");
+				System.out.println("Se va a proceder al borrado del cliente: ");
+	            System.out.println("Nombre: "+tablaClientes.get(indice).nombreCliente+
+     				   			   " Apellidos: "+tablaClientes.get(indice).apellidoCliente+
+     				               " DNI: "+tablaClientes.get(indice).dniCliente+
+     				               " Edad: "+tablaClientes.get(indice).edadCliente);	
+	            entrada = new Scanner(System.in);
+	            System.out.print("¿Esta usted seguro? (si/no)");
+	            respuesta = entrada.nextLine().toLowerCase();
+	            if (respuesta.equals("si"))
+	            {
+	            	tablaClientes.remove(indice);
+	            	numClientes = numClientes - 1;
+	            	System.out.println("Cliente eliminado correctamente.");
+	            }
+	            else
+	            {
+	            	System.out.println("El cliente no fue borrado del sistema.");
+	            }
 			}
 			else
 				System.out.println("No existe cliente con ese indice.");
@@ -176,7 +194,7 @@ public class Clientes
 	{	
 		if (tablaClientes.isEmpty()) // No hay clientes en el sistema
 		{
-			System.out.println("No existen clientes dados de alta para borrar");
+			System.out.println("No existen clientes dados de alta para borrar.");
 		}
 		else
 		{
@@ -195,7 +213,7 @@ public class Clientes
 					{
 						tablaClientes.remove(indice);
 						numClientes = numClientes - 1;
-						System.out.println("Cliente eliminado correctamente");
+						System.out.println("Cliente eliminado correctamente.");
 						indiceCorrecto = true;
 					}
 					else
