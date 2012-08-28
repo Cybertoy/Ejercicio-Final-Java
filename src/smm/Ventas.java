@@ -118,10 +118,10 @@ public class Ventas
 				}				
 			} while (!entradaCorrecta);
 			
-			Ventas venta = new Ventas (idCliente, idMusica, numVentas);
 			numVentas = numVentas + 1;
+			Ventas venta = new Ventas (idCliente, idMusica, numVentas);
 			tablaVentas.put(numVentas, venta);  // damos de alta la venta en el sistema
-			System.out.println("Venta creada con exito");
+			System.out.println("Musica " + idMusica + " asginada a la venta actual.");
 		}
 	}
 	

@@ -7,8 +7,8 @@ public class Persona
 	
 	public Persona(String nombre, String apellidos)
 	{
-		nombre = this.nombre;
-		apellidos = this.apellidos;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
 	}
 
 	/**

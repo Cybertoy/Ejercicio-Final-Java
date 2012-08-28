@@ -68,7 +68,7 @@ public class Musica
 		Musica musica = new Musica (titulo, formato);
 		numMusica = numMusica + 1;
 		tablaMusica.put(numMusica, musica);  // Damos de alta el disco		
-		System.out.println("Musica creada con exito");
+		System.out.println("Musica creada con exito con codigo " + numMusica);
 	}
 	
 	/**

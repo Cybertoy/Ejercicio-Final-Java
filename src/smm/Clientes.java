@@ -107,7 +107,7 @@ public class Clientes extends Persona
 		numClientes = numClientes + 1;
 		tablaClientes.put(numClientes, cliente); // Damos de alta al cliente
 		
-		System.out.println("Cliente creado con exito");
+		System.out.println("Cliente creado con exito con codigo " + numClientes);
 	}
 	
 	/**
