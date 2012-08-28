@@ -52,13 +52,16 @@ public class Musica
 
 		System.out.print("Titulo del disco: ");
 		titulo = entrada.nextLine();
-		System.out.print("Formato del disco: ");
-		formato = entrada.nextLine();
-		
+		do
+		{
+			System.out.print("Formato del disco (CD/vinilo/casete): ");
+			formato = entrada.nextLine().toLowerCase();
+			if (!verificaFormato(formato))
+				System.out.println("No se ha introducido un formato valido.");
+		} while (!verificaFormato(formato));
 		Musica musica = new Musica (titulo, formato);
 		numMusica = numMusica + 1;
-		tablaMusica.put(numMusica, musica);  // Damos de alta el disco
-		
+		tablaMusica.put(numMusica, musica);  // Damos de alta el disco		
 		System.out.println("Musica creada con exito");
 	}
 	
@@ -230,6 +233,16 @@ public class Musica
 				encontrado = true;
 		}
 		return encontrado;
+	}
+	
+	private static boolean verificaFormato(String formato)
+	{
+		if ((formato.equals("cd")) || (formato.equals("vinilo")) || (formato.equals("casete")))
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	// GETTERS Y SETTERS
