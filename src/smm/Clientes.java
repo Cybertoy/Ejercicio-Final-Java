@@ -6,7 +6,8 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Clase para la gestion de clientes.
