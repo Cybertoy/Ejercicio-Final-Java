@@ -288,6 +288,7 @@ public class Ventas
 		BufferedReader br = null;
 		StringTokenizer orden = null;
 		int[] arrayLinea = null;
+		Ventas venta = null;
 		
 		arrayLinea = new int[3]; // Guarda los 3 valores de la linea
 		
@@ -303,7 +304,7 @@ public class Ventas
 					arrayLinea[i]=Integer.parseInt(orden.nextToken()); // Almacenamos el token correspondiente
 				}
 					
-				Ventas venta = new Ventas (arrayLinea[0], arrayLinea[1], arrayLinea[2]);
+				venta = new Ventas (arrayLinea[0], arrayLinea[1], arrayLinea[2]);
 				numVentas = numVentas + 1;
 				tablaVentas.put(numVentas, venta); //  Damos de alta la venta en el sistema
 			}
