@@ -171,10 +171,34 @@ public class Ventas
 		}
 		else
 		{
+			Scanner entrada = null;
+			String respuesta;
+			
 			if(Ventas.buscaVenta(indice, tablaVentas)) // Buscamos la venta en el sistema
 			{
-				tablaVentas.remove(indice);
-				System.out.println("venta eliminado correctamente");				
+				System.out.println("Se va a proceder al borrado de la venta: ");
+				System.out.println("Codigo de venta: "+tablaVentas.get(indice).codVenta+
+								   " Codigo de cliente: "+tablaVentas.get(indice).codCliente+
+								   " Codigo de disco: "+tablaVentas.get(indice).codMusica);	
+	            entrada = new Scanner(System.in);
+	            
+	            do // Esperamos una entrada si o no.
+	            {
+	            	System.out.print("¿Esta usted seguro? (si/no): ");
+		            respuesta = entrada.nextLine().toLowerCase();
+		            if ((!respuesta.equals("si")) && (!respuesta.equals("no")))
+		            	System.out.println("Por favor escriba si o no.");
+	            } while ((!respuesta.equals("si")) && (!respuesta.equals("no")));
+	            
+	            if (respuesta.equals("si")) // Borramos cliente
+	            {
+					tablaVentas.remove(indice);
+					System.out.println("Venta eliminado correctamente");
+	            }
+	            if (respuesta.equals("no"))
+	            {
+	            	System.out.println("La venta no fue borrada del sistema.");
+	            }
 			}
 			else
 				System.out.println("No existe venta con ese indice");
@@ -197,6 +221,7 @@ public class Ventas
 			int indice;
 			Scanner entrada = null;
 			boolean indiceCorrecto = false;
+			String respuesta;
 			
 			do
 			{
@@ -206,10 +231,32 @@ public class Ventas
 					entrada = new Scanner(System.in);
 					indice = entrada.nextInt();
 					if(buscaVenta(indice, tablaVentas)) // Buscamos la venta en el sistema
-					{						
-						tablaVentas.remove(indice);
-						System.out.println("Venta eliminada correctamente");
-						indiceCorrecto = true;
+					{			
+						System.out.println("Se va a proceder al borrado de la venta: ");
+						System.out.println("Codigo de venta: "+tablaVentas.get(indice).codVenta+
+								   " Codigo de cliente: "+tablaVentas.get(indice).codCliente+
+								   " Codigo de disco: "+tablaVentas.get(indice).codMusica);	
+			            entrada = new Scanner(System.in);
+			            
+			            do // Esperamos una entrada si o no.
+			            {
+			            	System.out.print("¿Esta usted seguro? (si/no): ");
+				            respuesta = entrada.nextLine().toLowerCase();
+				            if ((!respuesta.equals("si")) && (!respuesta.equals("no")))
+				            	System.out.println("Por favor escriba si o no.");
+			            } while ((!respuesta.equals("si")) && (!respuesta.equals("no")));
+			            
+			            if (respuesta.equals("si")) // Borramos cliente
+			            {
+							tablaVentas.remove(indice);
+							System.out.println("Venta eliminada correctamente");
+							indiceCorrecto = true;
+			            }
+			            if (respuesta.equals("no"))
+			            {
+			            	System.out.println("La venta no fue borrada del sistema.");
+			            	indiceCorrecto = true;
+			            }
 					}
 					else
 						System.out.println("No existe venta con ese indice.");

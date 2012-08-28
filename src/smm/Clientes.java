@@ -167,15 +167,22 @@ public class Clientes
      				               " DNI: "+tablaClientes.get(indice).dniCliente+
      				               " Edad: "+tablaClientes.get(indice).edadCliente);	
 	            entrada = new Scanner(System.in);
-	            System.out.print("¿Esta usted seguro? (si/no)");
-	            respuesta = entrada.nextLine().toLowerCase();
+	            
+	            do
+	            {
+	            	System.out.print("¿Esta usted seguro? (si/no): ");
+		            respuesta = entrada.nextLine().toLowerCase();
+		            if ((!respuesta.equals("si")) && (!respuesta.equals("no")))
+		            	System.out.println("Por favor escriba si o no.");
+	            } while ((!respuesta.equals("si")) && (!respuesta.equals("no")));
+	            
 	            if (respuesta.equals("si"))
 	            {
 	            	tablaClientes.remove(indice);
 	            	numClientes = numClientes - 1;
 	            	System.out.println("Cliente eliminado correctamente.");
 	            }
-	            else
+	            if (respuesta.equals("no"))
 	            {
 	            	System.out.println("El cliente no fue borrado del sistema.");
 	            }
@@ -201,6 +208,7 @@ public class Clientes
 			int indice;
 			Scanner entrada = null;
 			boolean indiceCorrecto = false;
+			String respuesta;
 			
 			do
 			{
@@ -211,10 +219,33 @@ public class Clientes
 					indice = entrada.nextInt();
 					if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 					{
-						tablaClientes.remove(indice);
-						numClientes = numClientes - 1;
-						System.out.println("Cliente eliminado correctamente.");
-						indiceCorrecto = true;
+						System.out.println("Se va a proceder al borrado del cliente: ");
+			            System.out.println("Nombre: "+tablaClientes.get(indice).nombreCliente+
+		     				   			   " Apellidos: "+tablaClientes.get(indice).apellidoCliente+
+		     				               " DNI: "+tablaClientes.get(indice).dniCliente+
+		     				               " Edad: "+tablaClientes.get(indice).edadCliente);	
+			            entrada = new Scanner(System.in);
+			            
+			            do // Esperamos una entrada si o no.
+			            {
+			            	System.out.print("¿Esta usted seguro? (si/no): ");
+				            respuesta = entrada.nextLine().toLowerCase();
+				            if ((!respuesta.equals("si")) && (!respuesta.equals("no")))
+				            	System.out.println("Por favor escriba si o no.");
+			            } while ((!respuesta.equals("si")) && (!respuesta.equals("no")));
+			            
+			            if (respuesta.equals("si")) // Borramos cliente
+			            {
+							tablaClientes.remove(indice);
+							numClientes = numClientes - 1;
+							System.out.println("Cliente eliminado correctamente.");
+							indiceCorrecto = true;
+			            }
+			            if (respuesta.equals("no"))
+			            {
+			            	System.out.println("El cliente no fue borrado del sistema.");
+			            	indiceCorrecto = true;
+			            }
 					}
 					else
 						System.out.println("No existe cliente con ese indice.");

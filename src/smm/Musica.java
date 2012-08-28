@@ -107,11 +107,34 @@ public class Musica
 		}
 		else
 		{
+			String respuesta;
+			Scanner entrada = null;
+			
 			if(Musica.buscaMusica(indice, Tienda.tablaMusica)) // Buscamos el disco en el sistema
 			{
-				tablaMusica.remove(indice);
-				System.out.println("Disco eliminado correctamente");
-				numMusica = numMusica - 1;
+				System.out.println("Se va a proceder al borrado del disco: ");
+	            System.out.println("Titulo: "+tablaMusica.get(indice).tituloMusica+
+     				   			   " Formato: "+tablaMusica.get(indice).formatoMusica);	
+	            entrada = new Scanner(System.in);
+	            
+	            do
+	            {
+	            	System.out.print("¿Esta usted seguro? (si/no): ");
+		            respuesta = entrada.nextLine().toLowerCase();
+		            if ((!respuesta.equals("si")) && (!respuesta.equals("no")))
+		            	System.out.println("Por favor escriba si o no.");
+	            } while ((!respuesta.equals("si")) && (!respuesta.equals("no")));
+	            
+	            if (respuesta.equals("si"))
+	            {
+					tablaMusica.remove(indice);
+					System.out.println("Disco eliminado correctamente");
+					numMusica = numMusica - 1;
+	            }
+	            if (respuesta.equals("no"))
+	            {
+	            	System.out.println("El disco no fue borrado del sistema.");
+	            }				
 			}
 			else
 				System.out.println("No existe disco con ese indice.");
@@ -134,20 +157,42 @@ public class Musica
 			int indice;
 			Scanner entrada = null;
 			boolean indiceCorrecto = false;
+			String respuesta;
 			
 			do
 			{
-				System.out.print("Indice de discos a borrar: ");
+				System.out.print("Indice de disco a borrar: ");
 				try
 				{
 					entrada = new Scanner(System.in);
 					indice = entrada.nextInt();
 					if(Musica.buscaMusica(indice, Tienda.tablaMusica))  // Buscamos si el disco a borrar existe en el sistema
 					{
-						tablaMusica.remove(indice);
-						System.out.println("Disco eliminado correctamente");
-						numMusica = numMusica - 1;
-						indiceCorrecto = true;						
+						System.out.println("Se va a proceder al borrado del disco: ");
+			            System.out.println("Titulo: "+tablaMusica.get(indice).tituloMusica+
+		     				   			   " Formato: "+tablaMusica.get(indice).formatoMusica);	
+			            entrada = new Scanner(System.in);
+			            
+			            do
+			            {
+			            	System.out.print("¿Esta usted seguro? (si/no): ");
+				            respuesta = entrada.nextLine().toLowerCase();
+				            if ((!respuesta.equals("si")) && (!respuesta.equals("no")))
+				            	System.out.println("Por favor escriba si o no.");
+			            } while ((!respuesta.equals("si")) && (!respuesta.equals("no")));
+			            
+			            if (respuesta.equals("si"))
+			            {
+							tablaMusica.remove(indice);
+							System.out.println("Disco eliminado correctamente");
+							numMusica = numMusica - 1;
+							indiceCorrecto = true;	
+			            }
+			            if (respuesta.equals("no"))
+			            {
+			            	System.out.println("El disco no fue borrado del sistema.");
+			            	indiceCorrecto = true;
+			            }		
 					}
 					else
 						System.out.println("No existe disco con ese indice.");
