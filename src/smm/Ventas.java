@@ -360,7 +360,7 @@ public class Ventas
 		{
 			System.out.println("Se ha producido un error al procesar el fichero de ventas");
 		}
-		finally // Cuando termine
+		finally // Al finalizar el bloque de ejecucion
 		{
 			try
 			{                    

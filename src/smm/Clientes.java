@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.*;
 
 /**
  * Clase para la gestion de clientes.
@@ -52,26 +53,38 @@ public class Clientes extends Persona
 		String dni;
 		int edad = 0;
 		boolean edadCorrecta = false;
+		boolean dniCorrecto = true;
 		
 		Scanner entrada = null;
 		
-		do
+		do // Validacion nombre
 		{
 			entrada = new Scanner(System.in);
 			System.out.print("Nombre del cliente: ");
 			nombre = entrada.nextLine();
 		} while(nombre.equals(""));
 		
-		do
+		do // Validacion apellido
 		{
 			entrada = new Scanner(System.in);
 			System.out.print("Apellido del cliente: ");
 			apellidos = entrada.nextLine();
 		} while(apellidos.equals(""));
-		System.out.print("DNI del cliente: ");
-		dni = entrada.nextLine();
 		
-		do
+		do // Validacion DNI
+		{
+			System.out.print("DNI del cliente (8 digitos, guion, letra): ");
+			dni = entrada.nextLine();
+			if (!validaDNI(dni))
+			{
+				System.out.println("El DNI introducido no es valido, reviselo.");
+				dniCorrecto = false;
+			}
+			else
+				dniCorrecto = true;
+		} while (!dniCorrecto);
+		
+		do // Validacion edad
 		{
 			System.out.print("Edad del cliente: ");
 			try
@@ -153,6 +166,7 @@ public class Clientes extends Persona
 			
 			if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 			{
+				// Nos aseguramos que el usuario quiere borrar el cliente
 				System.out.println("Se va a proceder al borrado del cliente: ");
 	            System.out.println("Nombre: "+tablaClientes.get(indice).getNombre()+
      				   			   " Apellidos: "+tablaClientes.get(indice).getApellido()+
@@ -160,7 +174,7 @@ public class Clientes extends Persona
      				               " Edad: "+tablaClientes.get(indice).edadCliente);	
 	            entrada = new Scanner(System.in);
 	            
-	            do
+	            do // Esperamos entrada si o no
 	            {
 	            	System.out.print("¿Esta usted seguro? (si/no): ");
 		            respuesta = entrada.nextLine().toLowerCase();
@@ -211,6 +225,7 @@ public class Clientes extends Persona
 					indice = entrada.nextInt();
 					if(Clientes.buscaCliente(indice, tablaClientes)) // Buscamos el cliente en el sistema
 					{
+						// Nos aseguramos que el usuario quiere borrar el cliente
 						System.out.println("Se va a proceder al borrado del cliente: ");
 			            System.out.println("Nombre: "+tablaClientes.get(indice).getNombre()+
 		     				   			   " Apellidos: "+tablaClientes.get(indice).getApellido()+
@@ -274,6 +289,43 @@ public class Clientes extends Persona
 				encontrado = true;
 		}
 		return encontrado;
+	}
+
+	/**
+	 * Valida el DNI introducido siguiendo un patron 8 digitos, guion , letra DNI
+	 *
+	 * @param DNI cliente
+	 * @return true, si el dni es correcto en formato y su letra de control
+	 */
+	public static boolean validaDNI(String dni)
+	{
+		Pattern patron=Pattern.compile("\\d{8}\\-[a-zA-Z]{1}"); // Expresion regular que verifica 8 digitos, guion y letra del DNI
+		Matcher m=patron.matcher(dni); 
+		if( m.matches()) // El patron coincide con el patron introducido
+		{
+			if( Clientes.validarLetra(dni)) // Validamos la letra
+				return true;
+		}
+		return false; // El patron no es valido.
+	}
+ 
+	/**
+	 * Valida la letra de control del DNI
+	 *
+	 * @param letra del DNI
+	 * @return true, si la letra de DNI es correcta
+	 */
+	private static boolean validarLetra(String dni)
+	{
+		String[] letra=dni.split("-"); // Nos quedamos con la letra introducida.
+ 
+		int caracter=(Integer.valueOf(letra[0]).intValue())%23;
+		String[] control={"T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E","T"}; // Digito de control
+ 
+		if(control[caracter].compareToIgnoreCase(letra[1])==0) // La letra del dni introducido coincide con el digitol control calculado
+			return true;
+
+		return false; // No coincide
 	}
 
 	// GETTERS Y SETTERS

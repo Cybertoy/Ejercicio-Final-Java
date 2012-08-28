@@ -48,11 +48,17 @@ public class Musica
 		String titulo;
 		String formato;
 		
-		Scanner entrada = new Scanner(System.in);
+		Scanner entrada = null;
 
-		System.out.print("Titulo del disco: ");
-		titulo = entrada.nextLine();
-		do
+		
+		do // Validacion nombre
+		{
+			entrada = new Scanner(System.in);
+			System.out.print("Titulo del disco: ");
+			titulo = entrada.nextLine();
+		} while(titulo.equals(""));
+
+		do // Validacion del formato
 		{
 			System.out.print("Formato del disco (CD/vinilo/casete): ");
 			formato = entrada.nextLine().toLowerCase();
@@ -115,12 +121,13 @@ public class Musica
 			
 			if(Musica.buscaMusica(indice, Tienda.tablaMusica)) // Buscamos el disco en el sistema
 			{
+				// Verificamos que el usaurio quiere borrar el disco
 				System.out.println("Se va a proceder al borrado del disco: ");
 	            System.out.println("Titulo: "+tablaMusica.get(indice).tituloMusica+
      				   			   " Formato: "+tablaMusica.get(indice).formatoMusica);	
 	            entrada = new Scanner(System.in);
 	            
-	            do
+	            do // Esperamos respuesta si o no
 	            {
 	            	System.out.print("¿Esta usted seguro? (si/no): ");
 		            respuesta = entrada.nextLine().toLowerCase();
@@ -171,12 +178,13 @@ public class Musica
 					indice = entrada.nextInt();
 					if(Musica.buscaMusica(indice, Tienda.tablaMusica))  // Buscamos si el disco a borrar existe en el sistema
 					{
+						// Verificamos que el usaurio quiere borrar el disco
 						System.out.println("Se va a proceder al borrado del disco: ");
 			            System.out.println("Titulo: "+tablaMusica.get(indice).tituloMusica+
 		     				   			   " Formato: "+tablaMusica.get(indice).formatoMusica);	
 			            entrada = new Scanner(System.in);
 			            
-			            do
+			            do // Esperamos respuesta si o no
 			            {
 			            	System.out.print("¿Esta usted seguro? (si/no): ");
 				            respuesta = entrada.nextLine().toLowerCase();
@@ -234,7 +242,13 @@ public class Musica
 		}
 		return encontrado;
 	}
-	
+
+	/**
+	 * Verifica que el formato del disco sea correcto
+	 *
+	 * @param El formato del disco
+	 * @return true, si el formato introducido es cd, vinilo o casete
+	 */
 	private static boolean verificaFormato(String formato)
 	{
 		if ((formato.equals("cd")) || (formato.equals("vinilo")) || (formato.equals("casete")))
